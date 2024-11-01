@@ -1,0 +1,16 @@
+{
+    "name": "laboratorio/clear-cash",
+    "autoload": {
+        "psr-4": {
+            "Laboratorio\\ClearCash\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fernanda Avanco"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "10.0"
+    }
+}
