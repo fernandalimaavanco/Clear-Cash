@@ -101,6 +101,6 @@ $router->add('DELETE','/operations/{operationId}', function($operationId) use ($
 
 $requestedPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $pathItens = explode("/", $requestedPath);
-$requestedPath = "/" . $pathItens[1] . ($pathItens[2] ? "/" . $pathItens[2] : '');
+$requestedPath = "/" . $pathItens[3] . ($pathItens[4] ? "/" . $pathItens[4] : '');
 
 $router->dispatch($requestedPath);
