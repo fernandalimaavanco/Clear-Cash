@@ -1,7 +1,7 @@
 <?php
 require_once '../config/db.php';
 
-class User
+class Category
 {
     private $connection;
 
@@ -29,7 +29,7 @@ class User
 
     public function getById($id)
     {
-        $sql = "SELECT * FROM tb_categories WHERE id = ?";
+        $sql = "SELECT * FROM tb_categories WHERE id_category = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();
@@ -38,7 +38,7 @@ class User
 
     public function update($id, $description, $entrance)
     {
-        $sql = "UPDATE tb_categories SET description = ?, entrance = ? WHERE id = ?";
+        $sql = "UPDATE tb_categories SET description = ?, entrance = ? WHERE id_category = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $description);
         $stmt->bindParam(2, $entrance);
@@ -49,7 +49,7 @@ class User
 
     public function delete($id)
     {
-        $sql = "DELETE FROM tb_categories WHERE id = ?";
+        $sql = "DELETE FROM tb_categories WHERE id_category = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();

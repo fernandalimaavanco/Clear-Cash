@@ -1,7 +1,7 @@
 <?php
 require_once '../config/db.php';
 
-class User
+class Operation
 {
     private $connection;
 
@@ -23,8 +23,8 @@ class User
 
     public function list()
     {
-        $sql = "SELECT (id, value, date, description) FROM tb_operations
-                INNER JOIN tb_categories on tb_categories.id = tb_operations.id_category";
+        $sql = "SELECT (id_operation, value, date, description) FROM tb_operations
+                INNER JOIN tb_categories on tb_categories.id_category = tb_operations.id_category";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,9 +32,9 @@ class User
 
     public function getById($id)
     {
-        $sql = "SELECT (id, value, date, description) FROM tb_operations
-                INNER JOIN tb_categories on tb_categories.id = tb_operations.id_category
-                WHERE id = ?";
+        $sql = "SELECT (id_operation, value, date, description) FROM tb_operations
+                INNER JOIN tb_categories on tb_categories.id_category = tb_operations.id_category
+                WHERE id_operation = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();
@@ -43,7 +43,7 @@ class User
 
     public function update($id, $value, $date, $id_category)
     {
-        $sql = "UPDATE tb_operations SET description = ?, entrance = ? WHERE id = :id";
+        $sql = "UPDATE tb_operations SET description = ?, entrance = ?, id_category = ? WHERE id_operation = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $value);
         $stmt->bindParam(2, $date);
@@ -55,7 +55,7 @@ class User
 
     public function delete($id)
     {
-        $sql = "DELETE FROM tb_operations WHERE id = ?";
+        $sql = "DELETE FROM tb_operations WHERE id_operation = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();

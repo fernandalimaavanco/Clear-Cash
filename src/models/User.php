@@ -22,7 +22,7 @@ class User
 
     public function list()
     {
-        $sql = "SELECT id, name FROM tb_users";
+        $sql = "SELECT id_user, name FROM tb_users";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,16 +30,16 @@ class User
 
     public function getById($id)
     {
-        $sql = "SELECT id, name, login FROM tb_users WHERE id = ?";
+        $sql = "SELECT id_user, name, login FROM tb_users WHERE id_user = ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(1, $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function update($id, $name, $login)
     {
-        $sql = "UPDATE tb_users SET name = ?, login = ? WHERE id = :id";
+        $sql = "UPDATE tb_users SET name = ?, login = ? WHERE id_user = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $name);
         $stmt->bindParam(2, $login);
@@ -50,7 +50,7 @@ class User
 
     public function delete($id)
     {
-        $sql = "DELETE FROM tb_users WHERE id = ?";
+        $sql = "DELETE FROM tb_users WHERE id_user = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(1, $id);
         $stmt->execute();

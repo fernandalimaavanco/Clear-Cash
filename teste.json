@@ -1,0 +1,16 @@
+{
+    "name": "FERNANDA AVANÇO",
+    "login": "fer",
+    "password": 123
+}
+
+{
+    "description": "Alimentação",
+    "entrance": false
+}
+
+{
+    "value": 20,
+    "date": "2024-10-10",
+    "id_category": 1
+}

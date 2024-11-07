@@ -1,28 +1,56 @@
-<?php 
+<?php
 
-class Router {
+class Router
+{
     private $routes = [];
 
-    public function add ($method, $path, $callback) {
-
-        $path = preg_replace('/\{(w+)\}/', '(\d+)', $path);
+    public function add($method, $route, $callback)
+    {
         $this->routes[] = [
-            'method' => $method, 
-            'path' => "#^" . $path . "$#", 
-            'callback' => $callback];
+            'method' => $method,
+            'route' => $route,
+            'callback' => $callback
+        ];
     }
-
-    public function dispatch ($requestedPath) {
-
-        $requestedMethod = $_SERVER["REQUEST_METHOD"];
+    public function dispatch($requestedPath)
+    {
+        $method = $_SERVER['REQUEST_METHOD']; 
 
         foreach ($this->routes as $route) {
-            if ($route['method'] === $requestedMethod && preg_match($route['path'], $requestedPath, $matches)) {
-                array_shift($matches);
-                return call_user_func($route['callback'], $matches[0]);
+
+            if ($method == $route['method'] && $this->matchRoute($route['route'], $requestedPath, $params)) {
+                call_user_func_array($route['callback'], $params);
+                return;
             }
         }
 
-        echo "404 - Rota não encontrada!";
+        http_response_code(404);
+        echo json_encode(["message" => "Rota não encontrada."]);
+    }
+
+    private function matchRoute($route, $requestedPath, &$params)
+    {
+        $route = trim($route, '/');
+        $requestedPath = trim($requestedPath, '/');
+
+        $routeParts = explode('/', $route);
+        $requestedParts = explode('/', $requestedPath);
+
+        if (count($routeParts) != count($requestedParts)) {
+            return false;
+        }
+
+        $params = [];
+
+        for ($i = 0; $i < count($routeParts); $i++) {
+            if (isset($routeParts[$i]) && strpos($routeParts[$i], '{') !== false) {
+                $paramName = trim($routeParts[$i], '{}');
+                $params[$paramName] = $requestedParts[$i]; 
+            } elseif ($routeParts[$i] !== $requestedParts[$i]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
