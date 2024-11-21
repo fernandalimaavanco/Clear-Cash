@@ -1,0 +1,5 @@
+.env
+
+# Composer
+/vendor/
+composer.lock
